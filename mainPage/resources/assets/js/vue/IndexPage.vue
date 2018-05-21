@@ -1,12 +1,13 @@
 <style scoped>
-    .layout{
+    .layout {
         border: 1px solid #d7dde4;
         background: #f5f7f9;
         position: relative;
         border-radius: 4px;
         overflow: hidden;
     }
-    .layout-logo{
+
+    .layout-logo {
         width: 100px;
         height: 30px;
         background: #5b6270;
@@ -16,12 +17,14 @@
         top: 15px;
         left: 20px;
     }
-    .layout-nav{
+
+    .layout-nav {
         width: 420px;
         margin: 0 auto;
         margin-right: 20px;
     }
-    .layout-footer-center{
+
+    .layout-footer-center {
         text-align: center;
     }
 </style>
@@ -29,54 +32,41 @@
     <div class="layout">
         <Layout>
             <Header>
-                <Menu mode="horizontal" theme="dark" active-name="1">
-                    <div class="layout-logo"></div>
-                    <div class="layout-nav">
-                        <MenuItem name="1">
-                            <Icon type="ios-navigate"></Icon>
-                            Item 1
-                        </MenuItem>
-                        <MenuItem name="2">
-                            <Icon type="ios-keypad"></Icon>
-                            Item 2
-                        </MenuItem>
-                        <MenuItem name="3">
-                            <Icon type="ios-analytics"></Icon>
-                            Item 3
-                        </MenuItem>
-                        <MenuItem name="4">
-                            <Icon type="ios-paper"></Icon>
-                            Item 4
-                        </MenuItem>
-                    </div>
-                </Menu>
+                <h-menu></h-menu>
             </Header>
-            <Content :style="{padding: '0 50px'}">
-                <Breadcrumb :style="{margin: '20px 0'}">
-                    <BreadcrumbItem>Home</BreadcrumbItem>
-                    <BreadcrumbItem>Components</BreadcrumbItem>
-                    <BreadcrumbItem>Layout</BreadcrumbItem>
-                </Breadcrumb>
-                <Card>
-                    <div style="min-height: 200px;">
-                        Content
-                    </div>
-                </Card>
+            <Content :style="{padding: '50px'}">
+                <m-card v-for="item in cards" :item="item"  ></m-card>
             </Content>
-            <Footer class="layout-footer-center">2011-2016 &copy; TalkingData</Footer>
+            <c-footer></c-footer>
         </Layout>
     </div>
 </template>
 <script>
+    import hMenu from '../components/HMenuComponent'
+    import Footer from '../components/FooterComponent'
+    import MCard from '../components/MCardComponent'
+
     export default {
-        data () {
+        data() {
             return {
+                cards: []
             }
         },
-        components:{
+        components: {
+            'h-menu': hMenu,
+            'c-footer': Footer,
+            'm-card': MCard
+        },
+        methods: {},
+        created: function () {
+            axios.get('/api/index').then((res) => {
+                if (res.data.code === 0) {
+                    this.cards = res.data.data;
+                } else {
+                    alert(res.data.message)
+                }
 
-        },
-        methods: {
-        },
+            })
+        }
     }
 </script>
