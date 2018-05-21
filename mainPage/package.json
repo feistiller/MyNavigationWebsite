@@ -20,6 +20,6 @@
         "vue": "^2.5.7"
     },
     "dependencies": {
-        "iview": "^2.14.0-rc.1"
+        "iview": "^2.14.0-rc.3"
     }
 }
